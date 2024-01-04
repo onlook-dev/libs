@@ -1,0 +1,16 @@
+{
+  "name": "@babel/onlook-preprocessor",
+  "version": "2.0.5",
+  "main": "index.js",
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "@babel/preset-react": "^7.23.3",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^29.7.0",
+    "babel-loader": "^7.1.5",
+    "webpack": "^4.16.1",
+    "webpack-command": "^0.4.1"
+  },
+  "dependencies": {}
+}
