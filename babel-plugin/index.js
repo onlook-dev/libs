@@ -2,6 +2,7 @@ const pathLib = require("path");
 
 module.exports = (babel) => {
   const { types: t } = babel;
+  // TODO: Move into common lib
   const dataAttributeName = "data-onlook-id";
   return {
     visitor: {

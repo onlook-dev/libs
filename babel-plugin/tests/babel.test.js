@@ -23,6 +23,8 @@ describe("babel plugin", () => {
 
     // Construct the expected attribute value
     const expectedLineNumber = 4;
+
+    // TODO: Move into common lib
     const expectedValue = `"data-onlook-id": "${testFileName}:${expectedLineNumber}"`;
 
     expect(code).toContain(expectedValue);
