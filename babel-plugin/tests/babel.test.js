@@ -7,7 +7,9 @@ describe("babel plugin", () => {
     const inputCode = `
       const test = "test";
       const MyComponent = () => (
-        <div>Hello World</div>
+        <div>
+          Hello World
+        </div>
       );
     `;
 
