@@ -1,6 +1,6 @@
-const moduleToTest = require('../../index.js');
+const moduleToTest = require("../../index.js");
 
-test('adds data-onlook-id attribute to HTML tags', () => {
+test("adds data-onlook-id attribute to HTML tags", () => {
   const source = `
     <template>
       <div class="app">
@@ -23,8 +23,8 @@ test('adds data-onlook-id attribute to HTML tags', () => {
 
   const expectedOutput = `
     <template>
-      <div class="app" data-onlook-id="src\\App.vue:2">
-        <button data-onlook-id="src\\App.vue:3">Click me</button>
+      <div class="app" data-onlook-id="src\/App.vue:2">
+        <button data-onlook-id="src\/App.vue:3">Click me</button>
       </div>
     </template>
 
@@ -41,6 +41,6 @@ test('adds data-onlook-id attribute to HTML tags', () => {
     </style>
   `;
   const testFileName = "src/App.vue";
-  const actualOutput = moduleToTest(source,testFileName);
+  const actualOutput = moduleToTest(source, testFileName);
   expect(actualOutput).toBe(expectedOutput);
 });
