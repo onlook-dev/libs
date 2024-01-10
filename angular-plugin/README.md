@@ -18,12 +18,14 @@ A step by step series of examples that tell you how to get a development environ
 npm install
 ```
 
-### Running the tests
-```sh 
-npm run test
-```
-
 ### Built With
 
  - TypeScript - Used for static typing
  - Babel - Used to transpile TypeScript to JavaScript
+
+### Run addDataOnlookIdToAllTags
+
+```sh
+npm run prebuild src/app/app.component.html
+```
+With 'src/app/app.component.html' is filePath
