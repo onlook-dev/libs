@@ -13,8 +13,8 @@
     "webpack": "^4.16.1",
     "webpack-command": "^0.4.1"
   },
-  "scripts": {
-    "test": "jest"
+  "dependencies": {
+    "@babel/parser": "^7.23.6",
+    "@babel/traverse": "^7.23.7"
   }
 }
-

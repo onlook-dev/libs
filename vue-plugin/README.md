@@ -14,16 +14,12 @@ npm install
 
 ## Usage
 
-To run the tests, run the following command:
+To run the plugin, run the following command:
 
 ```sh
-const vuePlugin = require('path-to-plugin/index.js');
+npm run prebuild src/App.vue
 ```
 
-## Running Tests
+With 'src/App.vue' is filePath
 
-To run the tests, run the following command:
 
-```sh
-npm test
-```
