@@ -5,8 +5,8 @@
     "preprocess": "node preprocess.js",
     "postbuild": "node remove-attribute.js",
     "ng": "ng",
-    "start": "npm run preprocess && ng serve && npm run postbuild",
-    "build": "npm run preprocess && ng build && npm run postbuild",
+    "start": "ng serve",
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
