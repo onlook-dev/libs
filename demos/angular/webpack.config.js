@@ -1,11 +1,12 @@
+const path = require("path");
 module.exports = {
   module: {
     rules: [
       {
-        test: /\.html$/,
+        test: /\.js$/,
         use: [
           {
-            loader: path.resolve("preprocess.js"),
+            loader: path.resolve(__dirname, "preprocess-loader.js"),
           },
         ],
       },
