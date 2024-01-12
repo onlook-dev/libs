@@ -17,10 +17,25 @@ const MyComponent = () => (
 
 ## Usage
 
+Step 1: import react-app-rewired
 ```sh
-npm run prebuild src/App.js
+npm install react-app-rewired --save-dev
 ```
-With src/App.js is fullPath
+Step 2: change Scripts in 'package.json'
+
+"scripts": {
+  "start": "react-app-rewired start",
+  "build": "react-app-rewired build",
+  "test": "react-app-rewired test",
+  "eject": "react-scripts eject"
+}
+
+Step 3: create config-overrides.js and add-onlook-id-loader.js
+
+Step 4: run app
+```sh
+npm run start
+```
 
 ### Notes
 

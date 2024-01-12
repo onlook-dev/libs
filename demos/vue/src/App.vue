@@ -1,6 +1,7 @@
-<template><html data-onlook-id="App.vue:1"><head data-onlook-id="App.vue:2"></head><body data-onlook-id="App.vue:3"><img alt="Vue logo" src="./assets/logo.png" data-onlook-id="App.vue:4">
-  <helloworld msg="Welcome to Your Vue.js App" data-onlook-id="App.vue:5">
-</helloworld></body></html></template>
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
+</template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'

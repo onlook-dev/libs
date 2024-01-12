@@ -14,12 +14,18 @@ npm install
 
 ## Usage
 
-To run the plugin, run the following command:
+Step 1: create add-data-onlook-id-loader.js
+
+Step 2: edit vue.config.js
+
+Step 3:
 
 ```sh
-npm run prebuild src/App.vue
+npm run serve
 ```
-
-With 'src/App.vue' is filePath
+or 
+```sh
+npm run build
+```
 
 
