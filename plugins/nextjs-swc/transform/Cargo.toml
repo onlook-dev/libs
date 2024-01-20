@@ -1,5 +1,5 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+authors = ["Kiet Ho"]
 description = "AST Transforms for import modularizer"
 edition = "2021"
 license = "Apache-2.0"
