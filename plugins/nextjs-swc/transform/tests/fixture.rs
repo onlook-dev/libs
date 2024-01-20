@@ -16,6 +16,7 @@ fn syntax() -> Syntax {
 #[testing::fixture("tests/fixture/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.parent().unwrap().join("output.js");
+    let source_map = Default::default();
     test_fixture(
         syntax(),
         &|_tr| {
@@ -32,7 +33,8 @@ fn fixture(input: PathBuf) {
                     } else {
                         onlook_react::Config::All(true)
                     },
-                    file_name
+                    file_name,
+                    source_map
                 )
             )
         },

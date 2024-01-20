@@ -1135,6 +1135,7 @@ version = "0.87.28"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b3e389aed344d9d738f7e0901a1778a8402f10e459556c6d3a7a5b4501bf4cf"
 dependencies = [
+ "swc_common",
  "vergen",
 ]
 
