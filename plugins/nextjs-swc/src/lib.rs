@@ -1,7 +1,11 @@
 #![allow(clippy::not_unsafe_ptr_arg_deref)]
 use swc_core::{
+    common::FileName,
     ecma::{ast::Program, visit::FoldWith},
-    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+    plugin::{
+        metadata::TransformPluginMetadataContextKind, plugin_transform,
+        proxies::TransformPluginProgramMetadata,
+    },
 };
 
 #[plugin_transform]
@@ -14,5 +18,11 @@ fn swc_plugin(program: Program, data: TransformPluginProgramMetadata) -> Program
     .expect("invalid packages")
     .unwrap_or_else(|| onlook_react::Config::All(true));
 
-    program.fold_with(&mut onlook_react::onlook_react(config))
+    let file_name = match data.get_context(&TransformPluginMetadataContextKind::Filename) {
+        Some(s) => FileName::Real(s.into()),
+        None => FileName::Anon,
+    }
+    .to_string();
+
+    program.fold_with(&mut onlook_react::onlook_react(config, file_name))
 }

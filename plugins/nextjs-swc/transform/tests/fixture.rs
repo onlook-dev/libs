@@ -1,6 +1,6 @@
-use std::path::PathBuf;
-
 use onlook_react::Options;
+use std::path::PathBuf;
+use swc_common::FileName;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
@@ -21,16 +21,19 @@ fn fixture(input: PathBuf) {
         &|_tr| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-
+            let file_name = FileName::Real(input.clone()).to_string();
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                onlook_react::onlook_react(if input.to_string_lossy().contains("custom") {
-                    onlook_react::Config::WithOptions(Options {
-                        properties: vec!["^data-custom$".into()],
-                    })
-                } else {
-                    onlook_react::Config::All(true)
-                })
+                onlook_react::onlook_react(
+                    if input.to_string_lossy().contains("custom") {
+                        onlook_react::Config::WithOptions(Options {
+                            properties: vec!["^data-custom$".into()],
+                        })
+                    } else {
+                        onlook_react::Config::All(true)
+                    },
+                    file_name
+                )
             )
         },
         &input,

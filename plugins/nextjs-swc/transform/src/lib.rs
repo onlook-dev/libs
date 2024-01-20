@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_cached::regex::CachedRegex;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -19,52 +19,48 @@ impl Config {
     }
 }
 
+pub fn ident(str: &str) -> Ident {
+    Ident {
+        sym: str.into(),
+        span: DUMMY_SP,
+        optional: false,
+    }
+}
+
 #[derive(Clone, Debug, Deserialize)]
 pub struct Options {
     #[serde(default)]
     pub properties: Vec<String>,
 }
 
-pub fn onlook_react(config: Config) -> impl Fold {
-    let mut properties: Vec<CachedRegex> = match config {
-        Config::WithOptions(x) => x
-            .properties
-            .iter()
-            .map(|pattern| {
-                CachedRegex::new(pattern).unwrap_or_else(|e| {
-                    panic!("error compiling property regex `{}`: {}", pattern, e);
-                })
-            })
-            .collect(),
-        _ => vec![],
-    };
-    if properties.is_empty() {
-        // Keep the default regex identical to `babel-plugin-react-remove-properties`.
-        properties.push(CachedRegex::new(r"^data-test").unwrap());
-    }
-    RemoveProperties { properties }
+pub fn onlook_react(config: Config, file_name: String) -> impl Fold {
+    AddProperties { file_name }
 }
 
-struct RemoveProperties {
-    properties: Vec<CachedRegex>,
+struct AddProperties {
+    file_name: String,
 }
 
-impl RemoveProperties {
-    fn should_remove_property(&self, name: &str) -> bool {
-        self.properties.iter().any(|p| p.is_match(name))
-    }
-}
+impl AddProperties {}
 
-impl Fold for RemoveProperties {
+impl Fold for AddProperties {
     noop_fold_type!();
 
     fn fold_jsx_opening_element(&mut self, mut el: JSXOpeningElement) -> JSXOpeningElement {
-        el.attrs.retain(|attr| {
-            !matches!(attr, JSXAttrOrSpread::JSXAttr(JSXAttr {
-              name: JSXAttrName::Ident(ident),
-              ..
-            }) if self.should_remove_property(ident.sym.as_ref()))
+        let line = el.span.lo().0;
+        let file_line = format!("{}:{}", self.file_name, line);
+
+        let class_name_attr = JSXAttrOrSpread::JSXAttr(JSXAttr {
+            span: DUMMY_SP,
+            name: JSXAttrName::Ident(ident("data-onlook-id")),
+            value: Some(JSXAttrValue::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: file_line.into(),
+                raw: None,
+            }))),
         });
+
+        el.attrs.push(class_name_attr);
         el.fold_children_with(self)
     }
 }

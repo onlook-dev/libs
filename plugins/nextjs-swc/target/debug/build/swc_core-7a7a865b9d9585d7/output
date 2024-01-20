@@ -1,8 +1,0 @@
-cargo:rustc-env=VERGEN_CARGO_DEBUG=true
-cargo:rustc-env=VERGEN_CARGO_FEATURES=common_plugin_transform,ecma_ast,ecma_plugin_transform,ecma_visit,once_cell,swc_atoms,swc_common,swc_ecma_ast,swc_ecma_transforms_base,swc_ecma_transforms_testing,swc_ecma_visit,swc_plugin,swc_plugin_macro,swc_plugin_proxy,__common,__common_plugin_transform,__ecma,__ecma_plugin_transform,__plugin_transform_schema_v1,__testing_transform,__visit
-cargo:rustc-env=VERGEN_CARGO_OPT_LEVEL=0
-cargo:rustc-env=VERGEN_CARGO_TARGET_TRIPLE=aarch64-apple-darwin
-cargo:rustc-env=VERGEN_CARGO_DEPENDENCIES=anyhow 1.0.79,vergen 8.3.1
-cargo:rerun-if-changed=build.rs
-cargo:rerun-if-env-changed=VERGEN_IDEMPOTENT
-cargo:rerun-if-env-changed=SOURCE_DATE_EPOCH

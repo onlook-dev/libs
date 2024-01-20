@@ -675,8 +675,11 @@ dependencies = [
  "swc_atoms",
  "swc_cached",
  "swc_common",
+ "swc_core",
  "swc_ecma_ast",
  "swc_ecma_visit",
+ "swc_plugin",
+ "swc_plugin_proxy",
 ]
 
 [[package]]
