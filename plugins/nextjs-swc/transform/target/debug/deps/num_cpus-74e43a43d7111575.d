@@ -1,0 +1,7 @@
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/transform/target/debug/deps/libnum_cpus-74e43a43d7111575.rmeta: /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/transform/target/debug/deps/libnum_cpus-74e43a43d7111575.rlib: /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/transform/target/debug/deps/num_cpus-74e43a43d7111575.d: /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs
+
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/num_cpus-1.16.0/src/lib.rs:

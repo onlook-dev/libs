@@ -1,0 +1,4 @@
+cargo:rerun-if-changed=build.rs
+cargo:rustc-cfg=stable
+cargo:rustc-cfg=msrv
+cargo:rustc-cfg=lints_fix

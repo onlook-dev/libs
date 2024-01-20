@@ -1,0 +1,11 @@
+{
+  "name": "onlook-svelte",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "devDependencies": {},
+  "dependencies": {
+    "magic-string": "^0.30.5",
+    "svelte": "^4.2.8"
+  }
+}

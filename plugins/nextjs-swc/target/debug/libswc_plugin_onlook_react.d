@@ -1,0 +1,1 @@
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/target/debug/libswc_plugin_onlook_react.dylib: /Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/src/lib.rs /Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/transform/src/lib.rs

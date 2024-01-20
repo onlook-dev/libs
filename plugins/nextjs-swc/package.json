@@ -1,0 +1,12 @@
+{
+  "name": "@swc/plugin-onlook-react",
+  "version": "1.0.0",
+  "description": "SWC plugin for onlook",
+  "main": "swc_plugin_onlook_react.wasm",
+  "scripts": {
+    "prepack": "cp ../../target/wasm32-wasi/release/swc_plugin_onlook_react.wasm ."
+  },
+  "homepage": "https://onlook.dev",
+  "keywords": [],
+  "preferUnplugged": true
+}

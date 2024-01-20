@@ -1,0 +1,12 @@
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/target/debug/deps/libtempfile-3e4cc73076596050.rmeta: /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/lib.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/dir.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/error.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/mod.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/mod.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/spooled.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/util.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/unix.rs
+
+/Users/kietho/workplace/onlook.libs/plugins/nextjs-swc/target/debug/deps/tempfile-3e4cc73076596050.d: /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/lib.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/dir.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/error.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/mod.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/mod.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/spooled.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/util.rs /Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/unix.rs
+
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/lib.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/dir.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/error.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/mod.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/mod.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/spooled.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/util.rs:
+/Users/kietho/.cargo/registry/src/index.crates.io-6f17d22bba15001f/tempfile-3.9.0/src/file/imp/unix.rs:
