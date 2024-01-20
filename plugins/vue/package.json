@@ -1,0 +1,26 @@
+{
+  "name": "onlook-vue",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@angular-devkit/schematics": "^17.0.9",
+    "@angular/compiler": "^17.0.8",
+    "typescript": "^5.3.3",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "scripts": {
+    "prebuild": "node addDataOnlookIdToAllTags.js"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-typescript": "^7.23.3",
+    "@jest/transform": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.8",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  }
+}
