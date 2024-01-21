@@ -38,3 +38,5 @@ const config = {
 
 export default config;
 ```
+
+For more, see: https://kit.svelte.dev/docs/configuration
