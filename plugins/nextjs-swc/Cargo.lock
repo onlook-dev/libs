@@ -1041,17 +1041,15 @@ checksum = "3fdb12b2476b595f9358c5161aa467c2438859caa136dec86c26fdd2efe17b92"
 
 [[package]]
 name = "onlook_react"
-version = "0.22.0"
+version = "1.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
  "swc_cached",
  "swc_common",
- "swc_core",
  "swc_ecma_ast",
  "swc_ecma_visit",
  "swc_plugin",
- "swc_plugin_proxy",
 ]
 
 [[package]]
@@ -2066,10 +2064,9 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_onlook_react"
-version = "0.17.0"
+version = "1.0.0"
 dependencies = [
  "cargo-wasi",
- "cargo-wasi-exe-x86_64-apple-darwin",
  "onlook_react",
  "serde_json",
  "swc_cached",
@@ -2081,7 +2078,6 @@ dependencies = [
  "swc_plugin",
  "swc_plugin_macro",
  "tracing",
- "wasi",
 ]
 
 [[package]]

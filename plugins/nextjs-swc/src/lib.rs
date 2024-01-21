@@ -15,6 +15,5 @@ fn swc_plugin(program: Program, data: TransformPluginProgramMetadata) -> Program
     .unwrap_or_else(|| onlook_react::Config::All(true));
 
     let source_map = std::sync::Arc::new(data.source_map);
-
     program.fold_with(&mut onlook_react::onlook_react(config, source_map))
 }

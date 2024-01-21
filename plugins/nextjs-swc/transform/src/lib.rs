@@ -1,6 +1,6 @@
 use serde::Deserialize;
 use std::sync::Arc;
-use swc_common::{SourceMapper, DUMMY_SP};
+use swc_common::SourceMapper;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
@@ -20,14 +20,6 @@ impl Config {
     }
 }
 
-pub fn ident(str: &str) -> Ident {
-    Ident {
-        sym: str.into(),
-        span: DUMMY_SP,
-        optional: false,
-    }
-}
-
 #[derive(Clone, Debug, Deserialize)]
 pub struct Options {
     #[serde(default)]
@@ -35,10 +27,11 @@ pub struct Options {
 }
 
 pub fn onlook_react(config: Config, source_map: Arc<dyn SourceMapper>) -> impl Fold {
-    AddProperties { source_map }
+    AddProperties { config, source_map }
 }
 
 struct AddProperties {
+    config: Config,
     source_map: Arc<dyn SourceMapper>,
 }
 
@@ -64,11 +57,15 @@ impl Fold for AddProperties {
             .lines[0]
             .line_index;
 
-        let file_line = format!("{}:{}", path, line);
+        let file_line = generate_data_attribute_value(&path, line);
 
         let class_name_attr = JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: el.span,
-            name: JSXAttrName::Ident(ident("data-onlook-id")),
+            name: JSXAttrName::Ident(Ident {
+                sym: "data-onlook-id".into(),
+                span: el.span,
+                optional: false,
+            }),
             value: Some(JSXAttrValue::Lit(Lit::Str(Str {
                 span: el.span,
                 value: file_line.into(),
@@ -79,4 +76,11 @@ impl Fold for AddProperties {
         el.attrs.push(class_name_attr);
         el.fold_children_with(self)
     }
+}
+
+// TODO:
+// Get relative path from root if specified in config
+// Encrypt with key from config
+fn generate_data_attribute_value(path: &str, line: usize) -> String {
+    format!("{}:{}", path, line)
 }
