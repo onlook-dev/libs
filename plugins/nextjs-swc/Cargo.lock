@@ -2063,7 +2063,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_plugin_onlook_react"
+name = "swc_plugin_onlook"
 version = "1.0.0"
 dependencies = [
  "cargo-wasi",

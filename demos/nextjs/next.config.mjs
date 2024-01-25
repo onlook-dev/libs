@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    swcPlugins: [["@swc/plugin-onlook-react", {}]],
+    swcPlugins: [["@onlook/nextjs", {}]],
   },
 };
 

@@ -1,11 +1,33 @@
 {
-  "name": "onlook-svelte",
-  "version": "1.0.0",
+  "name": "@onlook/svelte",
+  "version": "1.0.1",
   "main": "index.js",
   "type": "module",
   "devDependencies": {},
   "dependencies": {
     "magic-string": "^0.30.5",
     "svelte": "^4.2.8"
-  }
+  },
+  "description": "To test locally in a svelte package, run:",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onlook-dev/libs.git"
+  },
+  "keywords": [
+    "Svelte",
+    "preprocessor",
+    "onlook"
+  ],
+  "author": "onlook.dev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onlook-dev/libs/issues"
+  },
+  "homepage": "https://github.com/onlook-dev/libs#readme"
 }

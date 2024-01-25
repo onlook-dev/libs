@@ -1,29 +1,20 @@
-# SWC-plugin
+# Onlook nextjs preprocessor
 
-To test locally in a nextjs package, run:
-
-```bash
-npm link
-```
-
-Then, in your package, run:
-
-```bash
-npm link @swc/plugin-onlook-react
-```
-
-`@swc/plugin-onlook-react` is the package name in `package.json`
-
-# Run in Nextjs project
+## Usage
 
 1. Install library
+
+```bash
+npm i @onlook/nextjs
+```
+
 2. Update `next.config.js`
 
 ```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    swcPlugins: [["@swc/plugin-onlook-react", {}]],
+    swcPlugins: [["@onlook/nextjs", {}]],
   },
 };
 
@@ -36,7 +27,7 @@ Or `next.config.mjs`
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    swcPlugins: [["@swc/plugin-onlook-react", {}]],
+    swcPlugins: [["@onlook/nextjs", {}]],
   },
 };
 
