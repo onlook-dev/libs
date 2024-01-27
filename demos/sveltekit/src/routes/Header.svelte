@@ -27,11 +27,13 @@
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
+// onlook edits
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
 
 	<div class="corner">
+// onlook edits
 		<a href="https://github.com/sveltejs/kit">
 			<img src={github} alt="GitHub" />
 		</a>

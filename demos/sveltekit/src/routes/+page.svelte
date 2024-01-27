@@ -14,6 +14,7 @@
 		<span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
+// onlook edits
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
