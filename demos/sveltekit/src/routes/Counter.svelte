@@ -11,6 +11,7 @@
 		// handle negative numbers
 		return ((n % m) + m) % m;
 	}
+// onlook edits
 </script>
 
 <div class="counter">
@@ -20,11 +21,13 @@
 		</svg>
 	</button>
 
+// onlook edits
 	<div class="counter-viewport">
 		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
 			<strong class="hidden" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
 			<strong>{Math.floor($displayed_count)}</strong>
 		</div>
+// onlook edits
 	</div>
 
 	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
