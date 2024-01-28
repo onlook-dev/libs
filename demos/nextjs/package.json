@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@onlook/nextjs": "^1.0.2",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18"
