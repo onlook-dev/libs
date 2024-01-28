@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use std::path::PathBuf;
 use std::sync::Arc;
 use swc_common::SourceMapper;
 use swc_ecma_ast::*;
@@ -12,18 +13,18 @@ pub enum Config {
 }
 
 impl Config {
-    pub fn truthy(&self) -> bool {
+    pub fn project_root(&self) -> Option<&str> {
         match self {
-            Config::All(b) => *b,
-            Config::WithOptions(_) => true,
+            Config::WithOptions(opts) => Some(&opts.project_root),
+            _ => None,
         }
     }
 }
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Options {
-    #[serde(default)]
-    pub properties: Vec<String>,
+    #[serde(rename = "projectRoot")]
+    pub project_root: String,
 }
 
 pub fn onlook_react(config: Config, source_map: Arc<dyn SourceMapper>) -> impl Fold {
@@ -41,25 +42,19 @@ impl Fold for AddProperties {
     noop_fold_type!();
 
     fn fold_jsx_opening_element(&mut self, mut el: JSXOpeningElement) -> JSXOpeningElement {
-        // Get file name
-        let path = self
-            .source_map
-            .get_code_map()
-            .span_to_filename(el.span)
-            .to_string();
+        // Get file name and line
+        let project_root = self
+            .config
+            .project_root()
+            .map(PathBuf::from)
+            .unwrap_or_else(|| PathBuf::from("."));
 
-        // Get line number of the span from source
-        let line = self
-            .source_map
-            .get_code_map()
-            .span_to_lines(el.span)
-            .unwrap()
-            .lines[0]
-            .line_index;
+        let code_map: &dyn SourceMapper = self.source_map.get_code_map();
+        let path: String = code_map.span_to_filename(el.span).to_string();
+        let line: usize = code_map.span_to_lines(el.span).unwrap().lines[0].line_index;
+        let file_line: String = generate_data_attribute_value(&project_root, &path, line);
 
-        let file_line = generate_data_attribute_value(&path, line);
-
-        let class_name_attr = JSXAttrOrSpread::JSXAttr(JSXAttr {
+        let class_name_attr: JSXAttrOrSpread = JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: el.span,
             name: JSXAttrName::Ident(Ident {
                 sym: "data-onlook-id".into(),
@@ -79,8 +74,17 @@ impl Fold for AddProperties {
 }
 
 // TODO:
-// Get relative path from root if specified in config
 // Encrypt with key from config
-fn generate_data_attribute_value(path: &str, line: usize) -> String {
-    format!("{}:{}", path, line)
+fn generate_data_attribute_value(project_root: &PathBuf, path: &str, line: usize) -> String {
+    // Get projectRoot from config
+    let abs_path_buf: PathBuf = PathBuf::from(path);
+
+    // Get relative path
+    let relative_path: String = abs_path_buf
+        .strip_prefix(&project_root)
+        .unwrap_or_else(|_| &abs_path_buf)
+        .to_string_lossy()
+        .to_string();
+
+    format!("{}:{}", relative_path, line)
 }

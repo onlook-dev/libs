@@ -8,26 +8,15 @@
 npm i @onlook/nextjs
 ```
 
-2. Update `next.config.js`
-
-```js
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    swcPlugins: [["@onlook/nextjs", {}]],
-  },
-};
-
-module.exports = nextConfig;
-```
-
-Or `next.config.mjs`
+2. Update `next.config.mjs`
 
 ```mjs
+import path from "path";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    swcPlugins: [["@onlook/nextjs", {}]],
+    swcPlugins: [["@onlook/nextjs", { projectRoot: path.resolve(".") }]],
   },
 };
 
