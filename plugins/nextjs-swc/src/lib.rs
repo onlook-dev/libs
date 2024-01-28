@@ -6,7 +6,7 @@ use swc_core::{
 
 #[plugin_transform]
 fn swc_plugin(program: Program, data: TransformPluginProgramMetadata) -> Program {
-    let config = serde_json::from_str::<Option<onlook_react::Config>>(
+    let config: onlook_react::Config = serde_json::from_str::<Option<onlook_react::Config>>(
         &data
             .get_transform_plugin_config()
             .expect("failed to get plugin config for onlook-react"),
