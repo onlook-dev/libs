@@ -51,8 +51,13 @@ impl Fold for AddProperties {
 
         let code_map: &dyn SourceMapper = self.source_map.get_code_map();
         let path: String = code_map.span_to_filename(el.span).to_string();
-        let line: usize = code_map.span_to_lines(el.span).unwrap().lines[0].line_index;
-        let file_line: String = generate_data_attribute_value(&project_root, &path, line);
+
+        let span_lines = code_map.span_to_lines(el.span).unwrap().lines;
+        let start_line: usize = span_lines[0].line_index;
+        let end_line: usize = span_lines.last().unwrap().line_index;
+
+        let file_line: String =
+            generate_data_attribute_value(&project_root, &path, start_line, end_line);
 
         let class_name_attr: JSXAttrOrSpread = JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: el.span,
@@ -75,7 +80,12 @@ impl Fold for AddProperties {
 
 // TODO:
 // Encrypt with key from config
-fn generate_data_attribute_value(project_root: &PathBuf, path: &str, line: usize) -> String {
+fn generate_data_attribute_value(
+    project_root: &PathBuf,
+    path: &str,
+    start_line: usize,
+    end_line: usize,
+) -> String {
     // Get projectRoot from config
     let abs_path_buf: PathBuf = PathBuf::from(path);
 
@@ -86,5 +96,5 @@ fn generate_data_attribute_value(project_root: &PathBuf, path: &str, line: usize
         .to_string_lossy()
         .to_string();
 
-    format!("{}:{}", relative_path, line)
+    format!("{}:{}:{}", relative_path, start_line, end_line)
 }

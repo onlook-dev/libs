@@ -1,6 +1,6 @@
 {
   "name": "@onlook/svelte",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "bundle.js",
   "type": "module",
   "dependencies": {
