@@ -3,8 +3,11 @@ import styles from "./page.module.css";
 
 export default function Home() {
   return (
+// onlook edits
+// onlook edits
     <main className={styles.main}>
       <div className={styles.description}>
+// onlook edits
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>src/app/page.tsx</code>
@@ -16,6 +19,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             By{" "}
+// onlook edits
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
@@ -29,6 +33,8 @@ export default function Home() {
       </div>
 
       <div className={styles.center}>
+// onlook edits
+// onlook edits
         <Image
           className={styles.logo}
           src="/next.svg"
