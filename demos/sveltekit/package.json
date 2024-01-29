@@ -22,6 +22,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@onlook/svelte": "^1.0.3"
+    "@onlook/svelte": "^1.0.5"
   }
 }

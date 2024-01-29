@@ -51,10 +51,11 @@ impl Fold for AddProperties {
 
         let code_map: &dyn SourceMapper = self.source_map.get_code_map();
         let path: String = code_map.span_to_filename(el.span).to_string();
-
         let span_lines = code_map.span_to_lines(el.span).unwrap().lines;
-        let start_line: usize = span_lines[0].line_index;
-        let end_line: usize = span_lines.last().unwrap().line_index;
+
+        let offset = 1;
+        let start_line: usize = span_lines[0].line_index + offset;
+        let end_line: usize = span_lines.last().unwrap().line_index + offset;
 
         let file_line: String =
             generate_data_attribute_value(&project_root, &path, start_line, end_line);
