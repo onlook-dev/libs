@@ -5,7 +5,7 @@
 1. Install library
 
 ```bash
-npm i @onlook/svelte
+npm i --save-dev @onlook/svelte
 ```
 
 2. Update `svelte.config.js`

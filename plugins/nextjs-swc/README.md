@@ -5,7 +5,7 @@
 1. Install library
 
 ```bash
-npm i @onlook/nextjs
+npm i --save-dev @onlook/nextjs
 ```
 
 2. Update `next.config.mjs`

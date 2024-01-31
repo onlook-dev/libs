@@ -15,12 +15,17 @@ export const onlookPreprocess = (root = process.cwd()) => {
         return { code: content };
       }
 
-      // Calculate offset from typescript preprocessing step
       // TODO: This is a hack, doesn't account for script tag being at the bottom of the file
-      let data = fs.readFileSync(filename);
-      let originalLineNum = data.toString().split("\n").length;
-      let postLineNum = content.split("\n").length;
-      let offset = originalLineNum - postLineNum;
+      let offset = 0;
+      try {
+        // Calculate offset from typescript preprocessing step
+        let data = fs.readFileSync(filename);
+        let originalLineNum = data.toString().split("\n").length;
+        let postLineNum = content.split("\n").length;
+        offset = originalLineNum - postLineNum;
+      } catch (e) {
+        offset = 0;
+      }
 
       // Make the filename relative to the root
       const relativeFilename = path.relative(root, filename);
