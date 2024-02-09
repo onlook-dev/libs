@@ -1,4 +1,4 @@
-import path from 'path';
+import pathLib from 'path';
 import fs from 'fs';
 import { parse, walk } from 'svelte/compiler';
 
@@ -1293,17 +1293,16 @@ class MagicString {
 
 const DATA_ONLOOK_ID = "data-onlook-id";
 
-function generateDataAttributeValue(filePath, lineStart, lineEnd, root) {
+function generateDataAttributeValue(filePath, lineStart, lineEnd, root, absolute = false) {
   // Convert the absolute path to a path relative to the project root
-  const projectRootPath = root || process.cwd();
-  const relativeFilePath = path.relative(projectRootPath, filePath);
+  const relativeFilePath = absolute ? filePath : pathLib.relative(root || process.cwd(), filePath);
   return `${relativeFilePath}:${lineStart}:${lineEnd}`;
 }
 
-const onlookPreprocess = (root = process.cwd()) => {
+const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => {
   return {
     markup: ({ content, filename }) => {
-      const nodeModulesPath = path.resolve(root, "node_modules");
+      const nodeModulesPath = pathLib.resolve(root, "node_modules");
       // Ignore node_modules
       if (filename.startsWith(nodeModulesPath)) {
         return { code: content };
@@ -1320,9 +1319,6 @@ const onlookPreprocess = (root = process.cwd()) => {
       } catch (e) {
         offset = 0;
       }
-
-      // Make the filename relative to the root
-      const relativeFilename = path.relative(root, filename);
 
       const ast = parse(content);
       const s = new MagicString(content, { filename });
@@ -1347,9 +1343,11 @@ const onlookPreprocess = (root = process.cwd()) => {
             // Find the position to insert the attribute
             const startTagEnd = node.start + node.name.length + 1;
             const attributeValue = generateDataAttributeValue(
-              relativeFilename,
+              filename,
               lineStart,
-              lineEnd
+              lineEnd,
+              root,
+              absolute
             );
             const attributeName = `${DATA_ONLOOK_ID}='${attributeValue}'`;
             s.appendLeft(startTagEnd, ` ${attributeName}`);
