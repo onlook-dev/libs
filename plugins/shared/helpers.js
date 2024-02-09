@@ -1,8 +1,7 @@
 import pathLib from "path";
 
-export function generateDataAttributeValue(filePath, lineStart, lineEnd, root) {
+export function generateDataAttributeValue(filePath, lineStart, lineEnd, root, absolute = false) {
   // Convert the absolute path to a path relative to the project root
-  const projectRootPath = root || process.cwd();
-  const relativeFilePath = pathLib.relative(projectRootPath, filePath);
+  const relativeFilePath = absolute ? filePath : pathLib.relative(root || process.cwd(), filePath);
   return `${relativeFilePath}:${lineStart}:${lineEnd}`;
 }
