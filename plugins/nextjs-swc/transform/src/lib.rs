@@ -19,12 +19,21 @@ impl Config {
             _ => None,
         }
     }
+
+    pub fn absolute(&self) -> bool {
+        match self {
+            Config::WithOptions(opts) => opts.absolute,
+            _ => false,
+        }
+    }
 }
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Options {
     #[serde(rename = "projectRoot")]
     pub project_root: String,
+    #[serde(default)]
+    pub absolute: bool,
 }
 
 pub fn onlook_react(config: Config, source_map: Arc<dyn SourceMapper>) -> impl Fold {
@@ -57,8 +66,13 @@ impl Fold for AddProperties {
         let start_line: usize = span_lines[0].line_index + offset;
         let end_line: usize = span_lines.last().unwrap().line_index + offset;
 
-        let file_line: String =
-            generate_data_attribute_value(&project_root, &path, start_line, end_line);
+        let file_line: String = generate_data_attribute_value(
+            &project_root,
+            &path,
+            start_line,
+            end_line,
+            self.config.absolute(),
+        );
 
         let class_name_attr: JSXAttrOrSpread = JSXAttrOrSpread::JSXAttr(JSXAttr {
             span: el.span,
@@ -86,9 +100,14 @@ fn generate_data_attribute_value(
     path: &str,
     start_line: usize,
     end_line: usize,
+    absolute: bool,
 ) -> String {
     // Get projectRoot from config
     let abs_path_buf: PathBuf = PathBuf::from(path);
+
+    if absolute {
+        return format!("{}:{}:{}", path, start_line, end_line);
+    }
 
     // Get relative path
     let relative_path: String = abs_path_buf
