@@ -1293,13 +1293,13 @@ class MagicString {
 
 const DATA_ONLOOK_ID = "data-onlook-id";
 
-function generateDataAttributeValue(filePath, lineStart, lineEnd, root, absolute = false) {
+function generateDataAttributeValue(filePath, lineStart, lineEnd, lineClosing, root, absolute = false) {
   // Convert the absolute path to a path relative to the project root
   const relativeFilePath = absolute ? filePath : pathLib.relative(root || process.cwd(), filePath);
-  return `${relativeFilePath}:${lineStart}:${lineEnd}`;
+  return `${relativeFilePath}:${lineStart}:${lineEnd}:${lineClosing}`;
 }
 
-const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => {
+const onlookPreprocess = ({ root = process.cwd() || __dirname, absolute = false }) => {
   return {
     markup: ({ content, filename }) => {
       const nodeModulesPath = pathLib.resolve(root, "node_modules");
@@ -1330,6 +1330,8 @@ const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => {
             const lineStart =
               content.slice(0, node.start).split("\n").length + offset;
 
+            const lineClosing = content.slice(0, node.end).split("\n").length + offset;
+
             // Find the end of the opening tag
             const tagContent = content.slice(node.start, node.end);
             let endOfOpeningTag = findEndOfOpeningTag(
@@ -1340,12 +1342,14 @@ const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => {
             const lineEnd =
               content.slice(0, endOfOpeningTag).split("\n").length + offset;
 
+
             // Find the position to insert the attribute
             const startTagEnd = node.start + node.name.length + 1;
             const attributeValue = generateDataAttributeValue(
               filename,
               lineStart,
               lineEnd,
+              lineClosing,
               root,
               absolute
             );
