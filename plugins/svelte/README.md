@@ -2,7 +2,7 @@
 
 ## Usage
 
-1. Install library
+1. Install preprocessor library
 
 ```bash
 npm i --save-dev @onlook/svelte
@@ -13,15 +13,19 @@ npm i --save-dev @onlook/svelte
 ```js
 import adapter from "@sveltejs/adapter-auto";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
-import { onlookPreprocess } from "@onlook/svelte"; // import onlook preprocessor
 
-/** @type {import('@sveltejs/kit').Config} */
+// Import preprocessor
+import { onlookPreprocess } from "@onlook/svelte";
+import path from "path";
+
 const config = {
   preprocess: [
     vitePreprocess(),
-    onlookPreprocess(), // Add onlook preprocessor
+    // Add preprocessor here
+    onlookPreprocess({
+      root: path.resolve("."),
+    }),
   ],
-
   kit: {
     adapter: adapter(),
   },

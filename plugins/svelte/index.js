@@ -6,7 +6,7 @@ import { parse, walk } from "svelte/compiler";
 import { DATA_ONLOOK_ID } from "../shared/constants.js";
 import { generateDataAttributeValue } from "../shared/helpers.js";
 
-export const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => {
+export const onlookPreprocess = ({ root = path.resolve('.'), absolute = false }) => {
   return {
     markup: ({ content, filename }) => {
       const nodeModulesPath = path.resolve(root, "node_modules");
@@ -37,6 +37,8 @@ export const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => 
             const lineStart =
               content.slice(0, node.start).split("\n").length + offset;
 
+            const lineClosing = content.slice(0, node.end).split("\n").length + offset;
+
             // Find the end of the opening tag
             const tagContent = content.slice(node.start, node.end);
             let endOfOpeningTag = findEndOfOpeningTag(
@@ -47,12 +49,14 @@ export const onlookPreprocess = ({ root = process.cwd(), absolute = false }) => 
             const lineEnd =
               content.slice(0, endOfOpeningTag).split("\n").length + offset;
 
+
             // Find the position to insert the attribute
             const startTagEnd = node.start + node.name.length + 1;
             const attributeValue = generateDataAttributeValue(
               filename,
               lineStart,
               lineEnd,
+              lineClosing,
               root,
               absolute
             );
