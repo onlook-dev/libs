@@ -8,86 +8,86 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 const intToChar = new Uint8Array(64); // 64 possible chars.
 const charToInt = new Uint8Array(128); // z is 122 in ASCII
 for (let i = 0; i < chars.length; i++) {
-	const c = chars.charCodeAt(i);
-	intToChar[i] = c;
-	charToInt[c] = i;
+    const c = chars.charCodeAt(i);
+    intToChar[i] = c;
+    charToInt[c] = i;
 }
 // Provide a fallback for older environments.
 const td = typeof TextDecoder !== 'undefined'
-	? /* #__PURE__ */ new TextDecoder()
-	: typeof Buffer !== 'undefined'
-		? {
-			decode(buf) {
-				const out = Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength);
-				return out.toString();
-			},
-		}
-		: {
-			decode(buf) {
-				let out = '';
-				for (let i = 0; i < buf.length; i++) {
-					out += String.fromCharCode(buf[i]);
-				}
-				return out;
-			},
-		};
+    ? /* #__PURE__ */ new TextDecoder()
+    : typeof Buffer !== 'undefined'
+        ? {
+            decode(buf) {
+                const out = Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength);
+                return out.toString();
+            },
+        }
+        : {
+            decode(buf) {
+                let out = '';
+                for (let i = 0; i < buf.length; i++) {
+                    out += String.fromCharCode(buf[i]);
+                }
+                return out;
+            },
+        };
 function encode(decoded) {
-	const state = new Int32Array(5);
-	const bufLength = 1024 * 16;
-	const subLength = bufLength - 36;
-	const buf = new Uint8Array(bufLength);
-	const sub = buf.subarray(0, subLength);
-	let pos = 0;
-	let out = '';
-	for (let i = 0; i < decoded.length; i++) {
-		const line = decoded[i];
-		if (i > 0) {
-			if (pos === bufLength) {
-				out += td.decode(buf);
-				pos = 0;
-			}
-			buf[pos++] = semicolon;
-		}
-		if (line.length === 0)
-			continue;
-		state[0] = 0;
-		for (let j = 0; j < line.length; j++) {
-			const segment = line[j];
-			// We can push up to 5 ints, each int can take at most 7 chars, and we
-			// may push a comma.
-			if (pos > subLength) {
-				out += td.decode(sub);
-				buf.copyWithin(0, subLength, pos);
-				pos -= subLength;
-			}
-			if (j > 0)
-				buf[pos++] = comma;
-			pos = encodeInteger(buf, pos, state, segment, 0); // genColumn
-			if (segment.length === 1)
-				continue;
-			pos = encodeInteger(buf, pos, state, segment, 1); // sourcesIndex
-			pos = encodeInteger(buf, pos, state, segment, 2); // sourceLine
-			pos = encodeInteger(buf, pos, state, segment, 3); // sourceColumn
-			if (segment.length === 4)
-				continue;
-			pos = encodeInteger(buf, pos, state, segment, 4); // namesIndex
-		}
-	}
-	return out + td.decode(buf.subarray(0, pos));
+    const state = new Int32Array(5);
+    const bufLength = 1024 * 16;
+    const subLength = bufLength - 36;
+    const buf = new Uint8Array(bufLength);
+    const sub = buf.subarray(0, subLength);
+    let pos = 0;
+    let out = '';
+    for (let i = 0; i < decoded.length; i++) {
+        const line = decoded[i];
+        if (i > 0) {
+            if (pos === bufLength) {
+                out += td.decode(buf);
+                pos = 0;
+            }
+            buf[pos++] = semicolon;
+        }
+        if (line.length === 0)
+            continue;
+        state[0] = 0;
+        for (let j = 0; j < line.length; j++) {
+            const segment = line[j];
+            // We can push up to 5 ints, each int can take at most 7 chars, and we
+            // may push a comma.
+            if (pos > subLength) {
+                out += td.decode(sub);
+                buf.copyWithin(0, subLength, pos);
+                pos -= subLength;
+            }
+            if (j > 0)
+                buf[pos++] = comma;
+            pos = encodeInteger(buf, pos, state, segment, 0); // genColumn
+            if (segment.length === 1)
+                continue;
+            pos = encodeInteger(buf, pos, state, segment, 1); // sourcesIndex
+            pos = encodeInteger(buf, pos, state, segment, 2); // sourceLine
+            pos = encodeInteger(buf, pos, state, segment, 3); // sourceColumn
+            if (segment.length === 4)
+                continue;
+            pos = encodeInteger(buf, pos, state, segment, 4); // namesIndex
+        }
+    }
+    return out + td.decode(buf.subarray(0, pos));
 }
 function encodeInteger(buf, pos, state, segment, j) {
-	const next = segment[j];
-	let num = next - state[j];
-	state[j] = next;
-	num = num < 0 ? (-num << 1) | 1 : num << 1;
-	do {
-		let clamped = num & 0b011111;
-		num >>>= 5;
-		if (num > 0)
-			clamped |= 0b100000;
-		buf[pos++] = intToChar[clamped];
-	} while (num > 0);
-	return pos;
+    const next = segment[j];
+    let num = next - state[j];
+    state[j] = next;
+    num = num < 0 ? (-num << 1) | 1 : num << 1;
+    do {
+        let clamped = num & 0b011111;
+        num >>>= 5;
+        if (num > 0)
+            clamped |= 0b100000;
+        buf[pos++] = intToChar[clamped];
+    } while (num > 0);
+    return pos;
 }
 
 class BitSet {
@@ -1294,114 +1294,114 @@ class MagicString {
 const DATA_ONLOOK_ID = "data-onlook-id";
 
 function generateDataAttributeValue(filePath, lineStart, lineEnd, lineClosing, root, absolute = false) {
-	// Convert the absolute path to a path relative to the project root
-	const relativeFilePath = absolute ? filePath : path.relative(root || process.cwd(), filePath);
-	return `${relativeFilePath}:${lineStart}:${lineEnd}:${lineClosing}`;
+  // Convert the absolute path to a path relative to the project root
+  const relativeFilePath = absolute ? filePath : path.relative(root || process.cwd(), filePath);
+  return `${relativeFilePath}:${lineStart}:${lineEnd}:${lineClosing}`;
 }
 
-const onlookPreprocess = ({ root, absolute = false }) => {
-	return {
-		markup: ({ content, filename }) => {
-			const nodeModulesPath = path.resolve(root, "node_modules");
-			// Ignore node_modules
-			if (filename.startsWith(nodeModulesPath)) {
-				return { code: content };
-			}
+const onlookPreprocess = ({ root = path.resolve('.'), absolute = false }) => {
+  return {
+    markup: ({ content, filename }) => {
+      const nodeModulesPath = path.resolve(root, "node_modules");
+      // Ignore node_modules
+      if (filename.startsWith(nodeModulesPath)) {
+        return { code: content };
+      }
 
-			// TODO: This is a hack, doesn't account for script tag being at the bottom of the file
-			let offset = 0;
-			try {
-				// Calculate offset from typescript preprocessing step
-				let data = fs.readFileSync(filename);
-				let originalLineNum = data.toString().split("\n").length;
-				let postLineNum = content.split("\n").length;
-				offset = originalLineNum - postLineNum;
-			} catch (e) {
-				offset = 0;
-			}
+      // TODO: This is a hack, doesn't account for script tag being at the bottom of the file
+      let offset = 0;
+      try {
+        // Calculate offset from typescript preprocessing step
+        let data = fs.readFileSync(filename);
+        let originalLineNum = data.toString().split("\n").length;
+        let postLineNum = content.split("\n").length;
+        offset = originalLineNum - postLineNum;
+      } catch (e) {
+        offset = 0;
+      }
 
-			const ast = parse(content);
-			const s = new MagicString(content, { filename });
+      const ast = parse(content);
+      const s = new MagicString(content, { filename });
 
-			walk(ast.html, {
-				enter(node) {
-					if (node.type === "Element") {
-						// Calculate the line number for each element node
-						const lineStart =
-							content.slice(0, node.start).split("\n").length + offset;
+      walk(ast.html, {
+        enter(node) {
+          if (node.type === "Element") {
+            // Calculate the line number for each element node
+            const lineStart =
+              content.slice(0, node.start).split("\n").length + offset;
 
-						const lineClosing = content.slice(0, node.end).split("\n").length + offset;
+            const lineClosing = content.slice(0, node.end).split("\n").length + offset;
 
-						// Find the end of the opening tag
-						const tagContent = content.slice(node.start, node.end);
-						let endOfOpeningTag = findEndOfOpeningTag(
-							tagContent,
-							node.start,
-							node.selfClosing
-						);
-						const lineEnd =
-							content.slice(0, endOfOpeningTag).split("\n").length + offset;
+            // Find the end of the opening tag
+            const tagContent = content.slice(node.start, node.end);
+            let endOfOpeningTag = findEndOfOpeningTag(
+              tagContent,
+              node.start,
+              node.selfClosing
+            );
+            const lineEnd =
+              content.slice(0, endOfOpeningTag).split("\n").length + offset;
 
 
-						// Find the position to insert the attribute
-						const startTagEnd = node.start + node.name.length + 1;
-						const attributeValue = generateDataAttributeValue(
-							filename,
-							lineStart,
-							lineEnd,
-							lineClosing,
-							root,
-							absolute
-						);
-						const attributeName = `${DATA_ONLOOK_ID}='${attributeValue}'`;
-						s.appendLeft(startTagEnd, ` ${attributeName}`);
-					}
-				},
-			});
+            // Find the position to insert the attribute
+            const startTagEnd = node.start + node.name.length + 1;
+            const attributeValue = generateDataAttributeValue(
+              filename,
+              lineStart,
+              lineEnd,
+              lineClosing,
+              root,
+              absolute
+            );
+            const attributeName = `${DATA_ONLOOK_ID}='${attributeValue}'`;
+            s.appendLeft(startTagEnd, ` ${attributeName}`);
+          }
+        },
+      });
 
-			return {
-				code: s.toString(),
-				map: s.generateMap({ hires: true }),
-			};
-		},
-	};
+      return {
+        code: s.toString(),
+        map: s.generateMap({ hires: true }),
+      };
+    },
+  };
 };
 
 // Only find the closing character outside of nested logic
 function findEndOfOpeningTag(tagContent, start, selfClosing) {
-	let index = start;
-	let stack = [];
-	for (let i = 0; i < tagContent.length; i++) {
-		const char = tagContent[i];
-		const topOfStack = stack[stack.length - 1];
+  let index = start;
+  let stack = [];
+  for (let i = 0; i < tagContent.length; i++) {
+    const char = tagContent[i];
+    const topOfStack = stack[stack.length - 1];
 
-		if (char === '"' || char === "'") {
-			if (topOfStack === char) {
-				// End of string literal
-				stack.pop();
-			} else if (!topOfStack || ["(", "{", "["].includes(topOfStack)) {
-				// Start of string literal
-				stack.push(char);
-			}
-		} else if (["(", "{", "["].includes(char) && !topOfStack) {
-			stack.push(char);
-		} else if (
-			(char === ")" && topOfStack === "(") ||
-			(char === "}" && topOfStack === "{") ||
-			(char === "]" && topOfStack === "[")
-		) {
-			stack.pop();
-		} else if (!stack.length) {
-			if (
-				char === ">" ||
-				(selfClosing && char === "/" && tagContent[i + 1] === ">")
-			) {
-				index += char === ">" ? i : i + 1;
-				break;
-			}
-		}
-	}
-	return index;
+    if (char === '"' || char === "'") {
+      if (topOfStack === char) {
+        // End of string literal
+        stack.pop();
+      } else if (!topOfStack || ["(", "{", "["].includes(topOfStack)) {
+        // Start of string literal
+        stack.push(char);
+      }
+    } else if (["(", "{", "["].includes(char) && !topOfStack) {
+      stack.push(char);
+    } else if (
+      (char === ")" && topOfStack === "(") ||
+      (char === "}" && topOfStack === "{") ||
+      (char === "]" && topOfStack === "[")
+    ) {
+      stack.pop();
+    } else if (!stack.length) {
+      if (
+        char === ">" ||
+        (selfClosing && char === "/" && tagContent[i + 1] === ">")
+      ) {
+        index += char === ">" ? i : i + 1;
+        break;
+      }
+    }
+  }
+  return index;
 }
 
 export { onlookPreprocess };
