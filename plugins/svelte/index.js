@@ -6,7 +6,7 @@ import { parse, walk } from "svelte/compiler";
 import { DATA_ONLOOK_ID } from "../shared/constants.js";
 import { generateDataAttributeValue } from "../shared/helpers.js";
 
-export const onlookPreprocess = ({ root = process.cwd() || __dirname, absolute = false }) => {
+export const onlookPreprocess = ({ root = path.resolve('.'), absolute = false }) => {
   return {
     markup: ({ content, filename }) => {
       const nodeModulesPath = path.resolve(root, "node_modules");

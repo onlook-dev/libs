@@ -51,17 +51,16 @@ impl Fold for AddProperties {
     noop_fold_type!();
 
     fn fold_jsx_opening_element(&mut self, mut el: JSXOpeningElement) -> JSXOpeningElement {
-        // Get file name and line
+        print!("HERE");
+        let code_map: &dyn SourceMapper = self.source_map.get_code_map();
+        let path: String = code_map.span_to_filename(el.span).to_string();
+
+        let span_lines = code_map.span_to_lines(el.span).unwrap().lines;
         let project_root = self
             .config
             .project_root()
             .map(PathBuf::from)
             .unwrap_or_else(|| PathBuf::from("."));
-
-        let code_map: &dyn SourceMapper = self.source_map.get_code_map();
-        let path: String = code_map.span_to_filename(el.span).to_string();
-        let span_lines = code_map.span_to_lines(el.span).unwrap().lines;
-
         let offset = 1;
         let start_line: usize = span_lines[0].line_index + offset;
         let end_line: usize = span_lines.last().unwrap().line_index + offset;
@@ -93,8 +92,6 @@ impl Fold for AddProperties {
     }
 }
 
-// TODO:
-// Encrypt with key from config
 fn generate_data_attribute_value(
     project_root: &PathBuf,
     path: &str,

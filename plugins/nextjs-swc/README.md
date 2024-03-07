@@ -2,19 +2,20 @@
 
 ## Usage
 
-1. Install library
+1. Install preprocessor library
 
 ```bash
 npm i --save-dev @onlook/nextjs
 ```
 
-2. Update `next.config.mjs`
+2. Update `next.config.mjs` or `next.config.js`
 
-```mjs
+```js
+// Import path
 import path from "path";
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Add preprocessor
   experimental: {
     swcPlugins: [["@onlook/nextjs", { projectRoot: path.resolve(".") }]],
   },
