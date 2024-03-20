@@ -10,7 +10,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@babel/types": "^7.24.0"
   },
-  "description": "React preprocessor for onlook.dev",
+  "description": "React babel preprocessor for onlook.dev",
   "directories": {
     "test": "tests"
   },
@@ -24,6 +24,7 @@
   },
   "keywords": [
     "react",
+    "babel",
     "preprocessor",
     "onlook"
   ],
