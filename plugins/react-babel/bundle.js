@@ -47449,7 +47449,7 @@ const { DATA_ONLOOK_ID } = constants;
 var reactBabel = function babelPluginOnlook({ root = process.cwd(), absolute = false }) {
   return {
     visitor: {
-      JSXOpeningElement(path, state) {
+      JSXElement(path, state) {
         const filename = state.file.opts.filename;
         const nodeModulesPath = `${root}/node_modules`;
 
@@ -47458,10 +47458,16 @@ var reactBabel = function babelPluginOnlook({ root = process.cwd(), absolute = f
           return;
         }
 
+        // Get the line number for the closing tag, or the opening tag if self-closing
+        const closingTagLine = path.node.closingElement
+          ? path.node.closingElement?.loc.end.line
+          : path.node.openingElement.loc.end.line;
+
         const attributeValue = generateDataAttributeValue(
           filename,
-          path.node.loc.start.line,
-          path.node.loc.end.line,
+          path.node.openingElement.loc.start.line,
+          path.node.openingElement.loc.end.line,
+          closingTagLine,
           root,
           absolute
         );
@@ -47473,7 +47479,7 @@ var reactBabel = function babelPluginOnlook({ root = process.cwd(), absolute = f
         );
 
         // Append the attribute to the element
-        path.node.attributes.push(onlookAttribute);
+        path.node.openingElement.attributes.push(onlookAttribute);
       },
     },
   };

@@ -1,67 +1,45 @@
-const babel = require("@babel/core");
-const fs = require("fs");
-const path = require("path");
-const generate = require("@babel/generator").default;
-const { parse } = require("@babel/parser");
-const traverse = require("@babel/traverse").default;
-const t = require("@babel/types");
-const { DATA_ONLOOK_ID } = require("../shared/constants.js");
+const { default: generate } = require('@babel/generator');
+const { parse } = require('@babel/parser');
+const traverse = require('@babel/traverse').default;
+const t = require('@babel/types');
 const { generateDataAttributeValue } = require("../shared/helpers.js");
+const { DATA_ONLOOK_ID } = require("../shared/constants.js");
 
-const onlookBabelPlugin = ({ root = path.resolve('.'), absolute = false }) => {
+module.exports = function babelPluginOnlook({ root = process.cwd(), absolute = false }) {
   return {
     visitor: {
-      Program(path, state) {
+      JSXElement(path, state) {
         const filename = state.file.opts.filename;
-        const nodeModulesPath = path.resolve(root, "node_modules");
+        const nodeModulesPath = `${root}/node_modules`;
 
         // Ignore node_modules
         if (filename.startsWith(nodeModulesPath)) {
           return;
         }
 
-        let offset = 0;
-        try {
-          // Calculate offset from typescript preprocessing step
-          let data = fs.readFileSync(filename, "utf-8");
-          let originalLineNum = data.split("\n").length;
-          let postLineNum = path.node.loc.end.line;
-          offset = originalLineNum - postLineNum;
-        } catch (e) {
-          offset = 0;
-        }
+        // Get the line number for the closing tag, or the opening tag if self-closing
+        const closingTagLine = path.node.closingElement
+          ? path.node.closingElement?.loc.end.line
+          : path.node.openingElement.loc.end.line;
 
-        traverse(path.node, {
-          JSXOpeningElement(jsxPath) {
-            const node = jsxPath.node;
+        const attributeValue = generateDataAttributeValue(
+          filename,
+          path.node.openingElement.loc.start.line,
+          path.node.openingElement.loc.end.line,
+          closingTagLine,
+          root,
+          absolute
+        );
 
-            // Calculate the line number for each element node
-            const lineStart = node.loc.start.line + offset;
-            const lineEnd = node.loc.end.line + offset;
+        // Create the custom attribute
+        const onlookAttribute = t.jSXAttribute(
+          t.jSXIdentifier(DATA_ONLOOK_ID),
+          t.stringLiteral(attributeValue)
+        );
 
-            // Generate the attribute value
-            const attributeValue = generateDataAttributeValue(
-              filename,
-              lineStart,
-              lineEnd,
-              lineEnd, // Assuming closing tag is on the same line
-              root,
-              absolute
-            );
-
-            // Create the JSX attribute
-            const jsxAttribute = t.jsxAttribute(
-              t.jsxIdentifier(DATA_ONLOOK_ID),
-              t.stringLiteral(attributeValue)
-            );
-
-            // Add the attribute to the opening element
-            jsxPath.node.attributes.push(jsxAttribute);
-          }
-        });
-      }
-    }
+        // Append the attribute to the element
+        path.node.openingElement.attributes.push(onlookAttribute);
+      },
+    },
   };
 };
-
-module.exports = onlookBabelPlugin;

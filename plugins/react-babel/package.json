@@ -4,8 +4,11 @@
   "main": "bundle.js",
   "type": "module",
   "dependencies": {
-    "magic-string": "^0.30.5",
-    "svelte": "^4.2.8"
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.24.1",
+    "@babel/types": "^7.24.0"
   },
   "description": "React preprocessor for onlook.dev",
   "directories": {
@@ -34,9 +37,6 @@
     "@rollup/plugin-json": "^6.1.0",
     "rollup": "^4.9.6",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "@babel/core": "^7.23.6",
-    "@babel/preset-env": "^7.23.6",
-    "@babel/preset-react": "^7.23.3"
+    "rollup-plugin-node-resolve": "^5.2.0"
   }
 }
